@@ -1,6 +1,5 @@
 package blockynoob.waterskin.client;
 
-import blockynoob.waterskin.common.main.WaterSkin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
@@ -9,15 +8,12 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import toughasnails.api.TANCapabilities;
 import toughasnails.api.config.GameplayOption;
 import toughasnails.api.config.SyncedConfig;
 import toughasnails.thirst.ThirstHandler;
 import toughasnails.util.RenderUtils;
 
-@SideOnly(Side.CLIENT)
 public class HydrationHUD {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -29,8 +25,6 @@ public class HydrationHUD {
 			int width = resolution.getScaledWidth();
 			int height = resolution.getScaledHeight();
 			EntityPlayerSP player = mc.player;
-
-			WaterSkin.proxy.updateHydration(player);
 
 			ThirstHandler thirstStats = (ThirstHandler) player.getCapability(TANCapabilities.THIRST, null);
 			float thirstHydrationLevel = thirstStats.getHydration();

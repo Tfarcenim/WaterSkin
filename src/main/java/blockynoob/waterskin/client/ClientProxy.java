@@ -1,9 +1,13 @@
 package blockynoob.waterskin.client;
 
+import blockynoob.waterskin.common.main.WaterSkin;
+import blockynoob.waterskin.common.networking.CommonNetworkManager;
+import blockynoob.waterskin.common.networking.ThirstPacket;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.commons.lang3.tuple.Triple;
 import org.lwjgl.opengl.GL11;
 
-import blockynoob.waterskin.common.main.CommonProxy;
 import blockynoob.waterskin.common.main.ThirstUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -13,19 +17,21 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import toughasnails.api.item.ItemDrink;
-import toughasnails.config.json.DrinkData;
 
-@SideOnly(Side.CLIENT)
-public class ClientProxy extends CommonProxy {
-	private final HydrationHUD hud = new HydrationHUD();
+public class ClientProxy {
+	private static final HydrationHUD hud = new HydrationHUD();
 
-	@Override
-	public void subscribeHandler() {
-		super.subscribeHandler();
+	public static void subscribeHandler() {
 		MinecraftForge.EVENT_BUS.register(hud);
+		MinecraftForge.EVENT_BUS.register(new ClientProxy());
+	}
+
+	@SubscribeEvent
+	public void onPlayerUpdate(TickEvent.PlayerTickEvent event) {
+		if (!event.player.world.isRemote) {
+			CommonNetworkManager.sendToClient(new ThirstPacket(event.player), (EntityPlayerMP) event.player);
+		}
 	}
 
 	@SubscribeEvent
@@ -34,7 +40,7 @@ public class ClientProxy extends CommonProxy {
 
 		Minecraft mc = Minecraft.getMinecraft();
 		mc.getTextureManager()
-				.bindTexture(new ResourceLocation("waterskin", "textures/gui/overlay/thirst_overlay.png"));
+				.bindTexture(new ResourceLocation(WaterSkin.MODID, "textures/gui/overlay/thirst_overlay.png"));
 
 		GuiScreen gui = mc.currentScreen;
 		Triple<Integer,Float,Float> data = ThirstUtils.getDrinkData(stack);
@@ -78,7 +84,6 @@ public class ClientProxy extends CommonProxy {
 					break;
 				}
 				gui.drawTexturedModalRect(baseX + 2 + i * 6, baseY + 17, 21, 27, 6, 7);
-
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package blockynoob.waterskin.common.networking;
 
+import blockynoob.waterskin.common.main.WaterSkin;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -9,14 +10,12 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class CommonNetworkManager {
 
-	private static String channelName = "blk_waterskin";
-
 	private static SimpleNetworkWrapper gaddonsChannel;
 
 	private static int registryIndex = 899;
 
 	public static void init() {
-		gaddonsChannel = NetworkRegistry.INSTANCE.newSimpleChannel(channelName);
+		gaddonsChannel = NetworkRegistry.INSTANCE.newSimpleChannel(WaterSkin.MODID);
 		registerMessages();
 	}
 
@@ -31,14 +30,6 @@ public class CommonNetworkManager {
 
 	public static void sendToClient(IMessage msg, EntityPlayerMP player) {
 		gaddonsChannel.sendTo(msg, player);
-	}
-
-	public static void sendToClients(IMessage msg) {
-		gaddonsChannel.sendToAll(msg);
-	}
-
-	public static void sendToDimension(IMessage msg, int dimId) {
-		gaddonsChannel.sendToDimension(msg, dimId);
 	}
 
 }
