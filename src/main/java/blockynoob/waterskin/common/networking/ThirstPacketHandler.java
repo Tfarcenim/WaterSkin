@@ -16,7 +16,7 @@ public class ThirstPacketHandler implements IMessageHandler<ThirstPacket, IMessa
 			data.setExhaustion(message.exhaustion);
 			data.setHydration(message.hydration);
 			data.setThirst(message.thirst);
-		} catch (NullPointerException e) {
+		} catch (NullPointerException ignored) {
 		}
 		return null;
 	}

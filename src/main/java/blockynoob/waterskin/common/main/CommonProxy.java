@@ -40,7 +40,6 @@ public class CommonProxy {
 
 	@SubscribeEvent
 	public void onPlayerUpdate(PlayerTickEvent event) {
-
 		if (!event.player.world.isRemote) {
 			updateHydration(event.player);
 			CommonNetworkManager.sendToClient(new ThirstPacket(event.player), (EntityPlayerMP) event.player);

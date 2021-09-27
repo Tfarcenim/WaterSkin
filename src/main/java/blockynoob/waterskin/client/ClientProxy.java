@@ -1,9 +1,10 @@
 package blockynoob.waterskin.client;
 
+import org.apache.commons.lang3.tuple.Triple;
 import org.lwjgl.opengl.GL11;
 
 import blockynoob.waterskin.common.main.CommonProxy;
-import blockynoob.waterskin.common.main.ThirstManager;
+import blockynoob.waterskin.common.main.ThirstUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -19,7 +20,7 @@ import toughasnails.config.json.DrinkData;
 
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
-	private HydrationHUD hud = new HydrationHUD();
+	private final HydrationHUD hud = new HydrationHUD();
 
 	@Override
 	public void subscribeHandler() {
@@ -30,24 +31,27 @@ public class ClientProxy extends CommonProxy {
 	@SubscribeEvent
 	public void afterTooltip(RenderTooltipEvent.PostText event) {
 		ItemStack stack = event.getStack();
-		if (stack == null) {
-			return;
-		}
 
 		Minecraft mc = Minecraft.getMinecraft();
 		mc.getTextureManager()
 				.bindTexture(new ResourceLocation("waterskin", "textures/gui/overlay/thirst_overlay.png"));
 
 		GuiScreen gui = mc.currentScreen;
-		DrinkData data = ThirstManager.getDrinkData(stack); //This is no longer relevant
+		Triple<Integer,Float,Float> data = ThirstUtils.getDrinkData(stack);
+
 		if (data != null) {
+
+			int thirst = data.getLeft();
+			float hydration = data.getMiddle();
+			float poisonChance = data.getRight();
+			
 			ScaledResolution res = new ScaledResolution(mc);
-			float calculatedHydration = data.getHydrationRestored();
+			float calculatedHydration = hydration;
 			if (stack.getItem() instanceof ItemDrink) {
-				calculatedHydration = Math.min(2 * data.getHydrationRestored() * data.getThirstRestored(), 20);
+				calculatedHydration = Math.min(2 * hydration * thirst, 20);
 			}
 			float hydrationRemaining = 2f * ((int) calculatedHydration % 2);
-			int lengthThirst = ((data.getThirstRestored() + 1) >> 1) << 3;
+			int lengthThirst = (thirst + 1 >> 1) << 3;
 			int lengthHydration = 2 + ((int) ((calculatedHydration + 1.99) / 2.0)) * 6;
 			int length = Math.max(lengthThirst, lengthHydration);
 			GL11.glColor4f(1, 1, 1, 1);
@@ -59,8 +63,8 @@ public class ClientProxy extends CommonProxy {
 			gui.drawTexturedModalRect(baseX - 2, baseY + 3, 0, 42, length + 4, 26);
 
 			gui.drawTexturedModalRect(baseX + length + 2, baseY + 3, 88, 42, 3, 26);
-			for (int i = 0; i * 2 < data.getThirstRestored(); i++) {
-				if (data.getThirstRestored() - i * 2 == 1) {
+			for (int i = 0; i * 2 < thirst; i++) {
+				if (thirst - i * 2 == 1) {
 					gui.drawTexturedModalRect(baseX + 2 + i * 8, baseY + 7, 46, 0, 7, 10);
 					break;
 				}

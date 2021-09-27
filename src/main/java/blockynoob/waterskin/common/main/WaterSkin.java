@@ -37,8 +37,7 @@ public class WaterSkin
     
 	@EventHandler
 	public void init(FMLInitializationEvent event)
-			throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-		MinecraftForge.EVENT_BUS.register(new ThirstManager());
+			throws SecurityException, IllegalArgumentException {
 		CommonNetworkManager.init();
 		logger.info(WaterSkin.NAME + " is in the Init phase.");
 	}
