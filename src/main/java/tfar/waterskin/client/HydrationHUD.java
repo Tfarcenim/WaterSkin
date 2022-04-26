@@ -1,4 +1,4 @@
-package blockynoob.waterskin.client;
+package tfar.waterskin.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;

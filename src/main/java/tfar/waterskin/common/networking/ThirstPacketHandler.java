@@ -1,4 +1,4 @@
-package blockynoob.waterskin.common.networking;
+package tfar.waterskin.common.networking;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;

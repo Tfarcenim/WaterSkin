@@ -1,6 +1,6 @@
-package blockynoob.waterskin.common.networking;
+package tfar.waterskin.common.networking;
 
-import blockynoob.waterskin.common.main.WaterSkin;
+import tfar.waterskin.common.main.WaterSkin;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -12,7 +12,7 @@ public class CommonNetworkManager {
 
 	private static SimpleNetworkWrapper gaddonsChannel;
 
-	private static int registryIndex = 899;
+	private static int registryIndex = 0;
 
 	public static void init() {
 		gaddonsChannel = NetworkRegistry.INSTANCE.newSimpleChannel(WaterSkin.MODID);

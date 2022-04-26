@@ -1,4 +1,4 @@
-package blockynoob.waterskin.common.main;
+package tfar.waterskin.common.main;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;

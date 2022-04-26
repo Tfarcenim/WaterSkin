@@ -1,14 +1,14 @@
-package blockynoob.waterskin.client;
+package tfar.waterskin.client;
 
-import blockynoob.waterskin.common.main.WaterSkin;
-import blockynoob.waterskin.common.networking.CommonNetworkManager;
-import blockynoob.waterskin.common.networking.ThirstPacket;
+import tfar.waterskin.common.main.WaterSkin;
+import tfar.waterskin.common.networking.CommonNetworkManager;
+import tfar.waterskin.common.networking.ThirstPacket;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.commons.lang3.tuple.Triple;
 import org.lwjgl.opengl.GL11;
 
-import blockynoob.waterskin.common.main.ThirstUtils;
+import tfar.waterskin.common.main.ThirstUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
